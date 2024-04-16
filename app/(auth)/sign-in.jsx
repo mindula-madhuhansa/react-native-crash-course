@@ -3,11 +3,11 @@ import { View, Text, ScrollView, Image, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 
-import FormField from "../../components/FormField";
-import CustomButton from "../../components/CustomButton";
 import { images } from "../../constants";
 import { getCurrentUser, signIn } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import FormField from "../../components/FormField";
+import CustomButton from "../../components/CustomButton";
 
 const SignIn = () => {
   const { setUser, setIsLoggedIn } = useGlobalContext();
@@ -26,7 +26,7 @@ const SignIn = () => {
 
     try {
       await signIn(form.email, form.password);
-      const result = getCurrentUser();
+      const result = await getCurrentUser();
       setUser(result);
       setIsLoggedIn(true);
 
@@ -34,7 +34,6 @@ const SignIn = () => {
 
       router.replace("/home");
     } catch (error) {
-      console.error(error);
       Alert.alert("Error", error.message);
       setIsSubmiting(false);
     }
